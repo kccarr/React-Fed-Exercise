@@ -10,8 +10,8 @@ $(document).foundation();
 require('style!css!sass!applicationStyles')
 
 ReactDOM.render(
-  <Router history={hasHistory}>
-    <Route path="/" component={Main}></Route>
-  </Router>
+  <Router history={hashHistory}>
+    <Route path="/" component={Main}/>
+  </Router>,
   document.getElementById('app')
 );
