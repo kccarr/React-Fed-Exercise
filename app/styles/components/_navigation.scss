@@ -1,0 +1,15 @@
+.top-bar, .top-bar ul {
+  background-color: $nav-color;
+}
+
+.top-bar {
+  .menu-text {
+   color: $typo-color;
+  }
+}
+
+
+.menu > .menu-text > a {
+  display: inline;
+  padding: 0;
+}
