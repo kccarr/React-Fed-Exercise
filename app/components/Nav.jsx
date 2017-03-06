@@ -13,8 +13,8 @@ var Nav = React.createClass({
             <div className="top-bar-left">
               <ul className="menu">
                 <li className="menu-text">React Photo Gallery</li>
-                <li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Photos</IndexLink></li>
-                <li><Link to="/NASAfunfacts" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Fun Facts from NASA</Link></li>
+                {/* <li><IndexLink to="/" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Photos</IndexLink></li> */}
+                {/* <li><Link to="/NASAfunfacts" activeClassName="active" activeStyle={{fontWeight: 'bold'}}>Fun Facts from NASA</Link></li> */}
               </ul>
             </div>
 

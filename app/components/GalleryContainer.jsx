@@ -1,105 +1,310 @@
-// Cache gallery container
-const galleryContainer = document.querySelector('.react-gallery');
-
-// Create new array with URLs for images
-let imgUrls = [
-  'https://source.unsplash.com/3Z70SDuYs5g/800x600',
-  'https://source.unsplash.com/01vFmYAOqQ0/800x600',
-  'https://source.unsplash.com/2Bjq3A7rGn4/800x600',
-  'https://source.unsplash.com/t20pc32VbrU/800x600',
-  'https://source.unsplash.com/pHANr-CpbYM/800x600',
-  'https://source.unsplash.com/3PmwYw2uErY/800x600',
-  'https://source.unsplash.com/uOi3lg8fGl4/800x600',
-  'https://source.unsplash.com/CwkiN6_qpDI/800x600',
-  'https://source.unsplash.com/9O1oQ9SzQZQ/800x600',
-  'https://source.unsplash.com/E4944K_4SvI/800x600',
-  'https://source.unsplash.com/-hI5dX2ObAs/800x600',
-  'https://source.unsplash.com/vZlTg_McCDo/800x600'
-];
-
-// Component for gallery image
-class GalleryImage extends React.Component {
-  render() {
-    return(
-      <img className={this.props.className} src={this.props.src} alt={this.props.alt} />
-    )
-  }
-}
-
-// Component for gallery modal
-class GalleryModal extends React.Component {
-  render() {
-    if (this.props.isOpen === false) {
-      return null;
-    }
-
-    return(
-      <div isOpen={this.props.isOpen} className='modal-overlay' onClick={this.props.onClick} name={this.props.name}>
-        <div className='modal-body'>
-          <a className='modal-close' href='#' onClick={this.props.onClick}><span className='fa fa-times'></span></a>
-
-          <img src={this.props.src} />
-        </div>
-      </div>
-    )
-  }
-}
-
-// Component for gallery
-class Gallery extends React.Component{
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      showModal: false,
-      url: ''
-    }
-
-    this.openModal = this.openModal.bind(this);
-
-    this.closeModal = this.closeModal.bind(this);
-  }
-
-  render() {
-    return(
-      <div refs='gallery-container' className='container-fluid gallery-container'>
-        <div className='row'>
-          {
-            imgUrls.map((url, index) => {
-               return <div className='col-sm-6 col-md-3 col-xl-2'>
-                  <div className='gallery-card'>
-                    <GalleryImage className='gallery-thumbnail' src={url} alt={'Image number ' + (index + 1)} />
-
-                    <span className='card-icon-open fa fa-expand' value={url} onClick={(e) => this.openModal(url, e)}></span>
-                  </div>
-                </div>
-             })
-           }
-        </div>
-
-        <GalleryModal isOpen={this.state.showModal} onClick={this.closeModal} src={this.state.url} />
-      </div>
-    )
-  }
-
-  // Function for opening modal dialog
-  openModal(url, e) {
-     this.setState({
-       showModal: true,
-       url: url
-     })
-   };
-
-  // Function for closing modal dialog
-  closeModal() {
-    this.setState({
-      showModal: false,
-      url: ''
-    })
-  }
-}
-
-// Let's render the whole thing
-ReactDOM.render(
-  <Gallery imgUrls={imgUrls} />
-, galleryContainer);
+// var React = require('react');
+// var ReactDOM = require('react-dom');
+// var $ = require('jquery');
+// var _ = require('lodash');
+//
+//
+//
+// class GalleryContainer extends React.Component {
+// 	render() {
+// 		// Create tile for each item in data array
+// 		// Pass data to each tile and assign a key
+//     var data = [];
+//     var url = "https://api.flickr.com/services/feeds/photos_public.gne?tags=" + this.props.searchTag + "&format=json";
+//     $.ajax({
+//       url: url,
+//       dataType: 'jsonp',
+//       jsonpCallback: 'jsonFlickrApi',
+//       cache: false,
+//       success: function(res) {
+//
+//       res.items.forEach(function(obj,i,array){
+//             data.push({
+//                 image: obj.media.m,
+//                 title: obj.title
+//               })
+//       })
+//     }
+//   });
+//
+//   this.setState(data: data);
+//
+// 		return (
+// 			<div className="tiles">
+// 				{this.state.data.map((data) => {
+// 					return <Tile data={data} key={data.id} />
+// 				})}
+// 			</div>
+// 		);
+// 	}
+// }
+//
+// class Tile extends React.Component {
+// 	constructor(props) {
+// 			super(props);
+// 			this.state = {
+// 				open: false,
+// 				mouseOver: false
+// 			};
+// 			// Bind properties to class instance
+// 			this._clickHandler = this._clickHandler.bind(this);
+// 			this._mouseEnter = this._mouseEnter.bind(this);
+// 			this._mouseLeave = this._mouseLeave.bind(this);
+// 		}
+// 		// Event handlers to modify state values
+// 	_mouseEnter(e) {
+// 		e.preventDefault();
+// 		if (this.state.mouseOver === false) {
+// 			console.log(this.props.data.name);
+// 			this.setState({
+// 				mouseOver: true
+// 			})
+// 		}
+// 	}
+// 	_mouseLeave(e) {
+// 		e.preventDefault();
+// 		if (this.state.mouseOver === true) {
+// 			this.setState({
+// 				mouseOver: false
+// 			})
+// 		}
+// 	}
+// 	_clickHandler(e) {
+// 		e.preventDefault();
+// 		if (this.state.open === false) {
+// 			this.setState({
+// 				open: true
+// 			});
+// 		} else {
+// 			this.setState({
+// 				open: false
+// 			});
+// 		}
+// 	}
+//
+// 	render() {
+// 		// Modify styles based on state values
+// 		let tileStyle = {};
+// 		let headerStyle = {};
+// 		let zoom = {};
+// 		// When tile clicked
+// 		if (this.state.open) {
+// 			tileStyle = {
+// 				width: '62vw',
+// 				height: '62vw',
+// 				position: 'absolute',
+// 				top: '50%',
+// 				left: '50%',
+// 				margin: '0',
+// 				marginTop: '-31vw',
+// 				marginLeft: '-31vw',
+// 				boxShadow: '0 0 40px 5px rgba(0, 0, 0, 0.3)',
+// 				transform: 'none'
+// 			};
+// 		} else {
+// 			tileStyle = {
+// 				width: '18vw',
+// 				height: '18vw'
+// 			};
+// 		}
+//
+// 		return (
+// 			<div className="tile">
+// 				<img
+// 					onMouseEnter={this._mouseEnter}
+// 					onMouseLeave={this._mouseLeave}
+// 					onClick={this._clickHandler}
+// 					src={this.props.data.image}
+// 					alt={this.props.data.name}
+// 					style={tileStyle}
+// 				/>
+// 			</div>
+// 		);
+// 	}
+// }
+//
+// module.exports = GalleryContainer;
+//
+//
+//
+//
+//
+//
+// // // const app = document.getElementById('app');
+// //
+// // // var searchTag = this.props.photoTag || 'nasa';
+// //
+// // // const url = "https://api.flickr.com/services/feeds/photos_public.gne?tags=" + searchTag + "&format=json"
+// // // const data = [];
+// //
+// // // class App extends React.Component {
+// // // 	render() {
+// // // 		return (
+// // // 			<Tiles data={this.props.data} />
+// // // 		);
+// // // 	}
+// // // }
+// //
+// //
+// //
+// // class GalleryContainer extends React.Component {
+// //   constructor(){
+// //      super();
+// //       this.state = {photos:null, pageNum:1, totalPages:1, loadedAll: false, currentImage:0};
+// //       this.handleScroll = this.handleScroll.bind(this);
+// //       this.loadMorePhotos = this.loadMorePhotos.bind(this);
+// //       this.searchTags = this.state.searchTags;
+// //
+// //     }
+// //     componentDidMount() {
+// //         this.loadMorePhotos();
+// //         this.loadMorePhotos = _.debounce(this.loadMorePhotos, 200);
+// //         window.addEventListener('scroll', this.handleScroll);
+// //     }
+// //     handleScroll(){
+// //         let scrollY = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+// //         if ((window.innerHeight + scrollY) >= (document.body.offsetHeight - 50)) {
+// //             this.loadMorePhotos();
+// //         }
+// //     }
+// //     loadMorePhotos(e){
+// //         if (e){
+// //             e.preventDefault();
+// //         }
+// //     if (this.state.pageNum > this.state.totalPages){
+// //         this.setState({loadedAll: true});
+// //         return;
+// //   }
+// //   var url = "https://api.flickr.com/services/feeds/photos_public.gne?tags=" + this.props.searchTag + "&format=json";
+// //         $.ajax({
+// //           url: url,
+// //           dataType: 'jsonp',
+// //           jsonpCallback: 'jsonFlickrApi',
+// //           cache: false,
+// //           success: function(data) {
+// //           let photos = [];
+// //           data.items.forEach(function(obj,i,array){
+// //                 photos.push({
+// //                     image: obj.media.m,
+// //                     title: obj.title
+// //     });
+// //       })
+// //       this.setState({
+// //         photos: this.state.photos ? this.state.photos.concat(photos) : photos,
+// //         pageNum: this.state.pageNum + 1,
+// //         totalPages: data.photos.pages
+// //       });
+// //           }.bind(this),
+// //           error: function(xhr, status, err) {
+// //             console.error(status, err.toString());
+// //           }.bind(this)
+// //         });
+// //   }
+// //
+// //
+// //   render(){
+// //
+// //     return (
+// // 			<div className="tiles">
+// // 				{this.state.photos.map((photos) => {
+// // 					return <Tile data={photos} />
+// // 				})}
+// // 			</div>
+// // 		);
+// //
+// //       }
+// //
+// //   };
+// //
+// //
+// //
+// // class Tile extends React.Component {
+// // 	constructor(props) {
+// // 			super(props);
+// // 			this.state = {
+// // 				open: false,
+// // 				mouseOver: false
+// // 			};
+// // 			// Bind properties to class instance
+// // 			this._clickHandler = this._clickHandler.bind(this);
+// // 			this._mouseEnter = this._mouseEnter.bind(this);
+// // 			this._mouseLeave = this._mouseLeave.bind(this);
+// // 		}
+// // 		// Event handlers to modify state values
+// // 	_mouseEnter(e) {
+// // 		e.preventDefault();
+// // 		if (this.state.mouseOver === false) {
+// // 			console.log(this.props.photos.title);
+// // 			this.setState({
+// // 				mouseOver: true
+// // 			})
+// // 		}
+// // 	}
+// // 	_mouseLeave(e) {
+// // 		e.preventDefault();
+// // 		if (this.state.mouseOver === true) {
+// // 			this.setState({
+// // 				mouseOver: false
+// // 			})
+// // 		}
+// // 	}
+// // 	_clickHandler(e) {
+// // 		e.preventDefault();
+// // 		if (this.state.open === false) {
+// // 			this.setState({
+// // 				open: true
+// // 			});
+// // 		} else {
+// // 			this.setState({
+// // 				open: false
+// // 			});
+// // 		}
+// // 	}
+// //
+// // 	render() {
+// // 		// Modify styles based on state values
+// // 		let tileStyle = {};
+// // 		let headerStyle = {};
+// // 		let zoom = {};
+// // 		// When tile clicked
+// // 		if (this.state.open) {
+// // 			tileStyle = {
+// // 				width: '62vw',
+// // 				height: '62vw',
+// // 				position: 'absolute',
+// // 				top: '50%',
+// // 				left: '50%',
+// // 				margin: '0',
+// // 				marginTop: '-31vw',
+// // 				marginLeft: '-31vw',
+// // 				boxShadow: '0 0 40px 5px rgba(0, 0, 0, 0.3)',
+// // 				transform: 'none'
+// // 			};
+// // 		} else {
+// // 			tileStyle = {
+// // 				width: '18vw',
+// // 				height: '18vw'
+// // 			};
+// // 		}
+// //
+// // 		return (
+// // 			<div className="tile">
+// // 				<img
+// // 					onMouseEnter={this._mouseEnter}
+// // 					onMouseLeave={this._mouseLeave}
+// // 					onClick={this._clickHandler}
+// // 					src={this.props.photos.image}
+// // 					alt={this.props.photos.title}
+// // 					style={tileStyle}
+// // 				/>
+// // 			</div>
+// // 		);
+// // 	}
+// // }
+// //
+// //
+// // module.exports = GalleryContainer;
+// // // ReactDOM.render(
+// // // 	<App photos={data} />,
+// // // 	app
+// // // );

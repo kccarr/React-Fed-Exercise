@@ -117,7 +117,11 @@ class PhotoGallery extends React.Component{
         if (this.state.photos){
             return(
             		<div className="App">
+                  <div className="large-11 large-centered columns">
+                    <div className="row collapse">
             		    {this.renderGallery()}
+                  </div>
+                </div>
             		    <Lightbox
             			images={this.state.photos}
                                     backdropClosesModal={true}
